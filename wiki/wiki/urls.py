@@ -11,12 +11,12 @@ from django.conf.urls.static import static
 from core.views import index,feed,faq,writeups
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('',index,name='index'),
     path('feed',feed,name='feed'),
     path('writeups',writeups,name='writeups'),
     path('faq',faq,name='faq'),
 ]
-if settings.DEBUG is False:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    print(urlpatterns)
+if settings.DEBUG == True:
+    urlpatterns.extend([
+        path('admin/', admin.site.urls),
+    ])
