@@ -94,3 +94,18 @@ hr{
 .cmd{
 	font-family: "VT323", monospace;
 }
+@media only screen and (max-width: 600px) {
+	.main_image{
+		max-width: 100%;
+		height: 240px;
+	}
+	.navbar{
+		padding-left: 0px;
+	}
+	.content{
+		padding: 16px;
+	}
+	.feed{
+		width: 100%;
+	}
+}
