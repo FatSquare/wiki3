@@ -14,7 +14,7 @@
 			</div>
 			<hr>
 			<div class="ctx">
-				{{ feed.content }}
+				{{ feed.content | safe }}
 			</div>
 		</div>
 	{% endfor %}
