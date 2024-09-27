@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %} {% endblock %}</title>
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'style.css' %}">
+		{% block head %}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<ul class="navbar" >
+				<li><a id="a-/" href="/">home</a></li>
+				<li><a id="a-/feed" href="/feed">feed</a></li>
+				<li><a id="a-/writeups" href="/writeups">writeups</a></li>
+				<li><a id="a-/faq"href="/faq">faq</a></li>
+			</ul>
+		</header>
+		<section class="content">
+			{% block content %}
+			{% endblock %}
+		</section>
+		<!-- Django is not simple nor good but you have to learn it! -->
+		<script src="{% static 'app.js' %}"></script> 
+	</body>
+</html>

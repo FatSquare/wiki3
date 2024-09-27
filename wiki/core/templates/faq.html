@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block content %}
+<h1 class="question">> Who are you?</h1>
+<h3>
+	My name is Ayoub Hedri also known online as (squar3)<br>
+	I'm trying my best to improve my skills at Web developemenet. espacilly Backend developmenet.<br>
+	In my free time i do a lot of small projects that you can find on my github and I like to participate in Gamejams or CTFs<br>
+	Sometimes I play videogames like CS2 and RUST<br>
+	Also I mainly code in these langauges : python,rust<br>
+</h3>
+<br>
+<h1 class="question">> Why are you using http and not https?</h1>
+<h3><a target="_blank" class="link" href="http://n-gate.com/software/2017/07/12/0/">This article</a> is worth reading</h3>
+<br>
+<h1 class="question">></h1><h1 class="question cmd"> $ cat /var/log/files <h1>
+<div class="feed terminal">
+	{% load static %}
+	<p class="file">* <a target="_blank" href="{% static 'files/Ayoub_hedri.pdf' %}">personal_cv.pdf</a></p>
+	<p class="file">* <a target="_blank" href="{% static 'files/jusoor.pdf' %}">jusoorlabs_internship.pdf</a></p>
+</div>
+{% endblock %}
