@@ -20,7 +20,13 @@
 <h1 class="question">></h1><h1 class="question cmd"> $ cat /var/log/files <h1>
 <div class="feed terminal">
 	{% load static %}
-	<p class="file">* <a target="_blank" href="{% static 'files/Ayoub_hedri.pdf' %}">personal_cv.pdf</a></p>
-	<p class="file">* <a target="_blank" href="{% static 'files/jusoor.pdf' %}">jusoorlabs_internship.pdf</a></p>
+	<p class="file">
+		<img src="{% static 'pdf.svg' %}" width="16px" height="16px" />
+		<a target="_blank" href="{% static 'files/Ayoub_hedri.pdf' %}">personal_cv.pdf</a>
+	</p>
+	<p class="file">
+		<img src="{% static 'pdf.svg' %}" width="16px" height="16px" />
+		<a target="_blank" href="{% static 'files/jusoor.pdf' %}">jusoorlabs_internship.pdf</a>
+	</p>
 </div>
 {% endblock %}

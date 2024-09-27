@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '!@#DQWD!ADL)_+-q%1s+0*=av^((&ad=cp^o!1%l+99efmyxr0u+zpvfhwcuwxx0g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['77.223.215.100','squar3.site','localhost']
 
 
 # Application definition
