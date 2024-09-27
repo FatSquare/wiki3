@@ -102,6 +102,9 @@ hr{
 	.navbar{
 		padding-left: 0px;
 	}
+	.navbar li {
+		padding-right: 4px;
+	}
 	.content{
 		padding: 16px;
 	}
