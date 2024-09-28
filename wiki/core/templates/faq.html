@@ -5,27 +5,37 @@
 {% endblock %}
 
 {% block content %}
+{% load static %}
 <h1 class="question">> Who are you?</h1>
-<h3>
+<h3 class="response">
 	My name is Ayoub Hedri also known online as (squar3)<br>
 	I'm trying my best to improve my skills at Web developemenet. espacilly Backend developmenet.<br>
-	In my free time i do a lot of small projects that you can find on my github and I like to participate in Gamejams or CTFs<br>
-	Sometimes I play videogames like CS2 and RUST<br>
-	Also I mainly code in these langauges : python,rust<br>
+	In my free time I do a lot of small projects that you can find on my github and I like to participate in Gamejams/CTFs<br>
+	I play a bit of CS2 and RUST<br>
+	Also I mainly code in: python,rust<br>
 </h3>
 <br>
-<h1 class="question">> Why are you using http and not https?</h1>
-<h3><a target="_blank" class="link" href="http://n-gate.com/software/2017/07/12/0/">This article</a> is worth reading</h3>
+<h1 class="question">> Where can I find you online?</h1>
+<h3 class="response">
+		<a target="_blank" class="link" href="https://www.linkedin.com/in/ayoub-hedri-84427a244/">Linkedin</a>
+		<a target="_blank" class="link" href="https://github.com/FatSquare">Github</a>
+		<a target="_blank" class="link" href="https://x.com/Sqrt0x0">X-Twitter</a>
+</h3>
+<br>
+<h1 class="question">> Why are you still using HTTP ???</h1>
+<h3 class="response">
+	<a target="_blank" class="link" href="http://n-gate.com/software/2017/07/12/0/">This article</a> is worth reading.<br>
+	However we now have an HTTPS version for those who are insecure!
+</h3>
 <br>
 <h1 class="question">></h1><h1 class="question cmd"> $ cat /var/log/files <h1>
 <div class="feed terminal">
-	{% load static %}
 	<p class="file">
-		<img src="{% static 'pdf.svg' %}" width="16px" height="16px" />
+		<img src="{% static 'icons/pdf.svg' %}" width="16px" height="16px" />
 		<a target="_blank" href="{% static 'files/Ayoub_hedri.pdf' %}">personal_cv.pdf</a>
 	</p>
 	<p class="file">
-		<img src="{% static 'pdf.svg' %}" width="16px" height="16px" />
+		<img src="{% static 'icons/pdf.svg' %}" width="16px" height="16px" />
 		<a target="_blank" href="{% static 'files/jusoor.pdf' %}">jusoorlabs_internship.pdf</a>
 	</p>
 </div>
