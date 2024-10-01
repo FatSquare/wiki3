@@ -16,3 +16,6 @@ def writeups(request):
 
 def faq(request):
     return render(request,'faq.html')
+
+def potato(request):
+    return render(request,'potato.html')
