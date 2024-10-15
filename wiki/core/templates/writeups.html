@@ -6,7 +6,8 @@
 
 {% block content %}
 	<center>
-		<br><br><br><br><br>
-		<h1>Soon</h1>
+		{% for writeup in writeups %}
+		<h1><a href="/writeup/{{writeup.title}}" class="link">{{ writeup.title }}</a></h1>
+		{% endfor %}
 	</center>
 {% endblock %}

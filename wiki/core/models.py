@@ -12,3 +12,13 @@ class Feed(models.Model):
         ordering = ('-creation_time',)
     def __str__(self):
         return self.title
+
+class Writeup(models.Model):
+    title = models.CharField(max_length=64,default='',primary_key=True)
+    page_path = models.CharField(max_length=128,default='')
+    creation_time = models.DateTimeField(default=timezone.now);
+    
+    class Meta:
+        ordering = ('-creation_time',)
+    def __str__(self):
+        return self.title

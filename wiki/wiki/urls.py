@@ -8,16 +8,18 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.views import index,feed,faq,writeups,potato
+from core.views import index,feed,faq,writeups,potato,test,writeup
 
 urlpatterns = [
     path('',index,name='index'),
     path('feed',feed,name='feed'),
     path('writeups',writeups,name='writeups'),
+    path('writeup/<str:title>',writeup),
     path('faq',faq,name='faq'),
     path('p0tato',potato,name='p0tato'),
 ]
 if settings.DEBUG == True:
     urlpatterns.extend([
         path('admin/', admin.site.urls),
+        path('test/', test),
     ])

