@@ -1,0 +1,33 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" class="hidden">
+	<link type="text/css" id="dark-mode" rel="stylesheet" href=""/>
+	<style type="text/css" id="dark-mode-сustom-style"/>
+	<style type="text/css" id="dark-mode-theme-changer-style"/>
+
+	<url>
+		<loc>https://squar3.site/</loc>
+		<lastmod>2024-10-16T23:44:26+00:00</lastmod>
+		<priority>1.00</priority>
+	</url>
+	<url>
+		<loc>https://squar3.site/writeups</loc>
+		<lastmod>2024-10-16T23:44:26+00:00</lastmod>
+		<priority>1.00</priority>
+	</url>
+	<url>
+		<loc>https://squar3.site/writeup/Securinets_Quals_2024</loc>
+		<lastmod>2024-10-16T23:44:26+00:00</lastmod>
+		<priority>1.00</priority>
+	</url>
+	<url>
+		<loc>https://squar3.site/feed</loc>
+		<lastmod>2024-10-16T23:44:26+00:00</lastmod>
+		<priority>0.50</priority>
+	</url>
+	<url>
+		<loc>https://squar3.site/faq</loc>
+		<lastmod>2024-10-16T23:44:26+00:00</lastmod>
+		<priority>0.50</priority>
+	</url>
+</urlset>
