@@ -54,7 +54,7 @@
 				<br>
 				<h3>PART 2: Source code review</h3>
 				Okay.. now we have clear mission. let's find out where are all of these redirects coming from<br>
-				the first app running on port 80 is writting in <em class="um">python/flask</em>
+				the first app running on port 80 is written in <em class="um">python/flask</em>
 				and after reading the app.py file we found out there are three paths.<br>
 				<em class="wm">/notes</em>,  <em class="wm">/note/&lt;int:note_id></em> and <em class="wm">/note/&lt;int:note_id>/delete</em><br>
 				and exactly in <em class="wm">/notes/</em> we find a of possibility SQL Injection. since they are taking user's inputs directly and inserting it through query!<br>
@@ -80,13 +80,13 @@
 				it was confirmed by the author that the keypair.pem in the source code was changed on production. so simply we don't have the private key that is being used ϖ_ϖ<br>
 				<br>
 				hmm so there must something else. what is this jku in the headers?<br>
-				after digging through the code and understanding it better it looks like they are stroing the public key inside the the path <em class="um">./well-known/jwks.json</em> and refering to it into the headers. <br>
+				after digging through the code and understanding it better. it looks like they are stroing the public key inside the the path <em class="um">./well-known/jwks.json</em> and refering to it into the headers. <br>
 				localhost:8080 is refering to the app running on port 1234 in this case, we can confirm that by reading the docker-compose.yml <em class="wm">ports: - "1234:8080"</em> <br>
 				and here is how their code retrive the public key to verify the validation of the JWT token:<br>
 				<div class="img"><img src=https://s6.imgcdn.dev/Hyrsd.png /></div>
 				<div class="img"><img src=https://s6.imgcdn.dev/Hyv2l.png /></div>
 				the app is simply sending get request to whatever is the jku header is set to. retrieving the public key from it.<br>
-				which means... I can create a new keypair, craft a JWT token with <em class="wm">username: admin</em> set the jku header to <em class="um">http://mywebsite/jku</em> where im placing my public key over there and then sign it using my private key. 
+				which means... I can create a new keypair of pirvate and public keys, craft a JWT token with <em class="wm">username: admin</em> set the jku header to <em class="um">http://mywebsite/jku</em> where im placing my public key over there and then sign the JWT using my private key. 
 				btw there were some some <a target="_blank" href="https://stackoverflow.com/questions/43867440/whats-the-meaning-of-the-kid-claim-in-a-jwt-token" class="link">kid</a> verifications, so I just used a copy of their function <em class="um">app.go/jwks()</em> with my publick key to create the jku url content. here is a preview of our crafted JWT and the python code used to generate it <br> 
 				<div class="img"><img src=https://s6.imgcdn.dev/Hlryn.png /></div>
 				<pre class="code"><code class="language-python">import jwt
