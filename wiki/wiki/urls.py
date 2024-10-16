@@ -9,7 +9,7 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.views import index,feed,faq,writeups,potato,test,writeup
+from core.views import index,feed,faq,writeups,potato,test,writeup,robots
 
 urlpatterns = [
     path('',index,name='index'),
@@ -18,7 +18,8 @@ urlpatterns = [
     path('writeup/<str:title>',writeup),
     path('faq',faq,name='faq'),
     path('p0tato',potato,name='p0tato'),
-    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=False))
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=False)),
+    path('robots.txt',robots)
 ]
 if settings.DEBUG == True:
     urlpatterns.extend([

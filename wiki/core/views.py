@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Feed,Writeup
-from django.http import Http404
+from django.http import Http404,HttpResponse
 
 # Create your views here.
 def index(request):
@@ -34,3 +34,11 @@ def writeup(request,title):
     
 def test(request):
     return render(request,'test.html')
+
+def robots(_request):
+    content = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Allow: /writeup/Securinets_Quals_2024\n"
+    )
+    return HttpResponse(content, content_type="text/plain")
