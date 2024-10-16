@@ -4,6 +4,7 @@
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import RedirectView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,6 +18,7 @@ urlpatterns = [
     path('writeup/<str:title>',writeup),
     path('faq',faq,name='faq'),
     path('p0tato',potato,name='p0tato'),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=False))
 ]
 if settings.DEBUG == True:
     urlpatterns.extend([

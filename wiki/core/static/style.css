@@ -135,7 +135,7 @@ hr{
 	padding-left: 30px;
 }
 .writeup_title{
-	font-size:36px;
+	font-size:30px;
 	color:#ae2012;
 	font-weight: bold;
 }
@@ -157,6 +157,7 @@ em.sm{
 	background-color:#5555;
 	border-radius: 3px;
 	padding: 5px;
+	white-space: normal;
 }
 em.um{
 	font-style:normal;
@@ -164,6 +165,7 @@ em.um{
 	background-color:#5555;
 	border-radius: 3px;
 	padding: 5px;
+	white-space: normal;
 }
 em.wm{
 	font-style:normal;
@@ -171,6 +173,7 @@ em.wm{
 	background-color:#5555;
 	border-radius: 3px;
 	padding: 5px;
+	white-space: normal;
 }
 em.gm{
 	font-style:normal;
@@ -178,7 +181,11 @@ em.gm{
 	background-color:#5555;
 	border-radius: 3px;
 	padding: 5px;
+	white-space: normal;
 }
 .writeup_content .img {
 	margin:20px 0px;
+}
+img{
+	max-width: 100%;
 }
