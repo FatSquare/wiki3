@@ -4,10 +4,13 @@
 	Home
 {% endblock %}
 
+{% load cs_jinja %} 
 {% block content %}
 	<center>
 		{% for writeup in writeups %}
-		<h1><a href="/writeup/{{writeup.title}}" class="link">{{ writeup.title }}</a></h1>
+		<div class="writeup_link">
+			<a class="time"> {{ writeup.creation_time|format_time }}</a> <a href="/writeup/{{writeup.wid}}" class="question bold">{{ writeup.title }}</a>
+		<div>
 		{% endfor %}
 	</center>
 {% endblock %}

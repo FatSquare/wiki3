@@ -1,26 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+:root{
+	--bg-color: #001219;
+	--color-1:  #F87060;
+	--color-2:  #FF934F;
+	--color-3:  #2973F1;
+	--color-3-hover:  #1283F1; 
+}
 
 body{
-	background: #001219;
+	background: var(--bg-color);
 	color: #fffe;
 	line-height: 32px;
 }
 
 .navbar  a{
-	color: #ca6702;
+	color: var(--color-2);
 	text-decoration: none;
 	font-family: "Roboto Mono", monospace;
 	font-size:19px;
-	transition: 0.5s;
+	transition: 0.2s;
 }
 .navbar a:hover{
-	color: #ee9b00;
+	color: #d19b00;
 }
 .navbar a.active{
-	color: #ee9b00;
+	color: #d19b00;
 	text-decoration: underline;
 }
 .navbar{
@@ -64,7 +71,11 @@ hr{
 	font-size:14px;
 }
 .link{
-	color:#e9d8a6;
+	color:var(--color-3);
+	transition: 0.2s;
+}
+.link:hover{
+	color:var(--color-3-hover);
 }
 .file{
 	padding:0px 30px;
@@ -89,14 +100,15 @@ hr{
 	padding-top:0px;
 }
 .question{
-	color: #fff;
+	color: var(--color-1);
 	text-decoration: underline;
 	display: inline;
 }
 .cmd{
-	font-family: "VT323", monospace;
+	font-family: "Agdasima", sans-serif;
 }
 .response{
+	font-weight: normal;
 	margin-top: 0px;
 }
 @media only screen and (max-width: 600px) {
@@ -136,7 +148,7 @@ hr{
 }
 .writeup_title{
 	font-size:30px;
-	color:#ae2012;
+	color:var(--color-1);
 	font-weight: bold;
 }
 .writeup_content{
@@ -188,4 +200,20 @@ em.gm{
 }
 img{
 	max-width: 100%;
+}
+.bold{
+	font-weight: bold;
+}
+.time{
+	color: #777a;
+}
+.writeup_link{
+	font-size:19px;
+}
+.writeup_task{
+	padding-left: 30px;
+}
+.part{
+	color:var(--color-1);
+	text-decoration: underline;
 }

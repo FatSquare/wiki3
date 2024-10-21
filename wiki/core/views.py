@@ -24,9 +24,9 @@ def faq(request):
 def potato(request):
     return render(request,'potato.html')
 
-def writeup(request,title):
+def writeup(request,wid):
     try:
-        writeup = Writeup.objects.get(title=title)
+        writeup = Writeup.objects.get(wid=wid)
         return render(request,f'writeups/{writeup.page_path}')
     except:
         raise Http404 

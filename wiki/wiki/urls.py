@@ -15,7 +15,7 @@ urlpatterns = [
     path('',index,name='index'),
     path('feed',feed,name='feed'),
     path('writeups',writeups,name='writeups'),
-    path('writeup/<str:title>',writeup),
+    path('writeup/<int:wid>',writeup),
     path('faq',faq,name='faq'),
     path('p0tato',potato,name='p0tato'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=False)),

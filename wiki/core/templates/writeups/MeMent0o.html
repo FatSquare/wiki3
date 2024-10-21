@@ -6,7 +6,7 @@
 
 {% block head %}
    <meta property="og:title" content="Securinets Quals 2024 writeup" />
-    <meta property="og:description" content="A web writeup about Securinets Quals 2024" />
+    <meta property="og:description" content="A web writeup about Securinets Quals 2024, Task: MeMent0o~#" />
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/112691573?s=280&v=4" />
     <meta property="og:url" content="https://squar3.site/writeup/Securinets_Quals_2024" />
     <meta property="og:type" content="website" />
@@ -17,22 +17,15 @@
 
 <div class="writeup_container">
 	<div class="writeup_title">
-		<p><i># Securinets Quals 2024 Writeup </i><p>
+		<p><i># Securinets Quals 2024 > MeMent0o~# </i><p>
 	</div>
 	<div class="writeup_content">
 		<p>
 			CTF weight : 95.96<br>
 			Placement: 16/332<br>
 		</p>
-
-		Tasks:
-		<div class="writeup_tasks">
-			<a href="#mement0o" class="link">> [330] MeMent0o~#? </a>
-		</div>
-		<br><br>
-
 		<div id="mement0o">
-			<h1>MeMent0o~#?</h1>
+			<h1>MeMent0o~#</h1>
 			<p>
 				points: 330<br>
 				solves: 18<br>
@@ -43,7 +36,7 @@
 				We also got informed that the website is active on two ports <em class="sm">80</em> and <em class="sm">1234</em><br>
 				<div class="code_files">Files: <a href="https://filetransfer.io/data-package/fbEosPjU#link" target="_blank" class="link">mement0o.zip</a></div>
 				<br><br>
-				<h3>PART 1: Understanding </h3>
+				<h3 class="part">PART 1: Understanding </h3>
 				let's start by visiting the first app which is running on port 80 <a href="http://web1.securinets.tn:80/" target="_blank" class="link">http://web1.securinets.tn:80/</a><br>
 				we get a nav bar with two button register and login so we tried making a new account, but after that something weird happens<br>
 				everytime we visit any page we keep getting the error <em class="sm">ERR_TOO_MANY_REDIRECTS</em>.<br>
@@ -52,7 +45,7 @@
 				okay now enoguh with that let's visit the second url <a href="http://web1.securinets.tn:1234/" target="_blank" class="link">http://web1.securinets.tn:1234/</a>.</br>
 				NVM, we got a response but it's just a <em class="sm">404 page not found</em> :((<br>
 				<br>
-				<h3>PART 2: Source code review</h3>
+				<h3 class="part">PART 2: Source code review</h3>
 				Okay.. now we have clear mission. let's find out where are all of these redirects coming from<br>
 				the first app running on port 80 is written in <em class="um">python/flask</em>
 				and after reading the app.py file we found out there are three paths.<br>
@@ -73,7 +66,7 @@
 				after pasting this JWT token into <a class="link" href="https://jwt.io/">jwt.io</a> we get this result.
 				<div class="img"><img src=https://s6.imgcdn.dev/HyGpM.png /></div>
 				<br>
-				<h3>PART 3: JWT corruption</h3>
+				<h3 class="part">PART 3: JWT corruption</h3>
 				reminder: we have a path called <em class="um">/get_creds</em> which expect a JWT token and return the user credentials (username,password)<br>
 				after 1 hour of trying to simply just change username in the payload to admin and resign the JWT token again using the private key.<br>
 				I kept getting an error while sending it to <em class="um">/get_creds</em> which says <em class="sm">Invalid token: invalid signature*</em>.
@@ -116,11 +109,11 @@ print("JWT Token:", token)</code></pre>
 				<em class="gm"> admin:126b8b5bb9a20643693c64543a493bcd85f920ff </em><br>
 				we have the admin password now let's go back to first app and try to sign in.. it worked!!
 				<br>
-				<h3>PART 4: BLIND SQL INJECTION</h3>
+				<h3 class="part">PART 4: BLIND SQL INJECTION</h3>
 				here is the <em class="um">/notes</em> page preview from the admin account. we have a search bar where can use it to find notes using titles<br>
 				<div class="img"><img src=https://s6.imgcdn.dev/HUUdL.png /></div>
 
-				in part 4 we talked about the possibility of sql injection and here is the code we found in app.py<br>
+				in part 2 we talked about the possibility of sql injection and here is the code we found in app.py<br>
 				<div class="img"><img src=https://s6.imgcdn.dev/HUP4B.png /></div>
 				let's ignore the POST part because it's about adding a new note and after looking throught it, it looks useless.<br>
 				so from what we see here they're taking our input searching if a title includes our {search} and returning the content, however there was a intendend bug in their site which instead of printing the content you just recieve a computer symbol if it matches. for example after leaving it empty which will lead to LIKE '%%' which should match everything we recieve 2 computer symbols which tells us there are two matches. 
@@ -137,6 +130,7 @@ print("JWT Token:", token)</code></pre>
 				<pre class="code"><code class="language-sql">SELECT * FROM notes WHERE title LIKE '%%' AND 1=2 UNION SELECT 1,2,3 FROM (SELECT LOAD_FILE('/flag') AS content) AS subquery WHERE content LIKE 'securi%';# %' </code></pre><br>
 				this will return a match since the content of /flag starts with securi know we have a payload that we can change anything instead of securi and if the content of file starts with that it will return a computer smybol otherwise it won't. so I made a simple python script to automate that<br>
 
+				<h3 class="part">PART 5: Final payload</h3>
 				<pre class="code"><code class="language-python">import requests
 import urllib.parse
 
@@ -154,7 +148,7 @@ while True:
             confirmed_flag += alpha
             break
 	print(confirmed_flag)</code></pre><br>
-				and after ~1 minute of excution of we get our flag
+				and after ~1 minute of excution we get our flag
 				<div class="img"><img src=https://s6.imgcdn.dev/HU23i.png /></div>
 				<p>
 		</div>

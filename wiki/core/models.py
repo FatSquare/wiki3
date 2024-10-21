@@ -14,7 +14,8 @@ class Feed(models.Model):
         return self.title
 
 class Writeup(models.Model):
-    title = models.CharField(max_length=64,default='',primary_key=True)
+    wid = models.AutoField(default=1,primary_key=True)
+    title = models.CharField(max_length=64,default='')
     page_path = models.CharField(max_length=128,default='')
     creation_time = models.DateTimeField(default=timezone.now);
     

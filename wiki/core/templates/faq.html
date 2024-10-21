@@ -6,7 +6,7 @@
 
 {% block content %}
 {% load static %}
-<h1 class="question">> Who are you?</h1>
+<h1 class="question cmd">$ cat /etc/passwd </h1><br><br>
 <h3 class="response">
 	My name is Ayoub Hedri also known online as (squar3)<br>
 	I'm trying my best to improve my skills at Web developemenet. espacilly Backend developmenet.<br>
@@ -15,20 +15,14 @@
 	Also I mainly code in: python,rust<br>
 </h3>
 <br>
-<h1 class="question">> Where can I find you online?</h1>
+<h1 class="question cmd">$ cat ~/online_presence </h1><br><br>
 <h3 class="response">
 		<a target="_blank" class="link" href="https://www.linkedin.com/in/ayoub-hedri-84427a244/">Linkedin</a>
 		<a target="_blank" class="link" href="https://github.com/FatSquare">Github</a>
 		<a target="_blank" class="link" href="https://x.com/Sqrt0x0">X-Twitter</a>
 </h3>
 <br>
-<h1 class="question">> Why are you still using HTTP ???</h1>
-<h3 class="response">
-	<a target="_blank" class="link" href="http://n-gate.com/software/2017/07/12/0/">This article</a> is worth reading.<br>
-	However we now have an HTTPS version for those who are insecure!
-</h3>
-<br>
-<h1 class="question">></h1><h1 class="question cmd"> $ cat /var/log/files <h1>
+<h1 class="question cmd">$ cat /var/log/files <h1>
 <div class="feed terminal">
 	<p class="file">
 		<img src="{% static 'icons/pdf.svg' %}" width="16px" height="16px" />
